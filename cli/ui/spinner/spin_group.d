@@ -18,11 +18,22 @@ class SpinGroup {
 
   class Task {
     // TODO: Implement
+    this(string title, void delegate() block) {
+
+    }
   }
 
   auto add(string title, void delegate() block) {
     this.m.lock_nothrow();
     tasks ~= new Task(title, block);
     this.m.unlock_nothrow();
+  }
+
+  auto wait() {
+
+  }
+
+  auto debrief() {
+
   }
 }
