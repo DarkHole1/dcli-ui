@@ -3,7 +3,7 @@ import std.datetime;
 import core.thread.osthread;
 import std.uni;
 
-import cli.ui.glyph;
+import cli.ui.spinner.spin_group;
 
 const ESC = '\x1b';
 const CSI = ESC ~ "[";
@@ -16,7 +16,8 @@ const GLYPH_OK = '\u2713';
 const GLYPH_X = '\u2717';
 
 void main() {
-  writeln(Glyph.WARNING.to_s);
+  auto sg = new SpinGroup();
+  // writeln(Glyph.WARNING.to_s);
   // write(HIDE_CURSOR);
   // stdout.flush();
   // scope(exit) {
