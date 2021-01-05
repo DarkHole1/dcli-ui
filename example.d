@@ -3,7 +3,7 @@ import std.datetime;
 import core.thread.osthread;
 import std.uni;
 
-import cli.ui.spinner.spin_group;
+import cli.ui.spinner;
 
 const ESC = '\x1b';
 const CSI = ESC ~ "[";

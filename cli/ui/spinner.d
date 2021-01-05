@@ -1,4 +1,4 @@
-module cli.ui.spinner.spin_group;
+module cli.ui.spinner;
 import core.sync.mutex: Mutex;
 import std.datetime.systime: Clock, SysTime;
 
