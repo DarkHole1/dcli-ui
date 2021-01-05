@@ -1,6 +1,9 @@
 module cli.ui.spinner;
 import core.sync.mutex: Mutex;
-import std.datetime.systime: Clock, SysTime;
+import std.range: zip;
+import std.algorithm.iteration: map;
+import std.datetime;
+import cli.ui.os;
 
 class SpinGroup {
   Mutex m;
@@ -36,4 +39,18 @@ class SpinGroup {
   auto debrief() {
 
   }
+}
+
+class Spinner {
+  static index = 0;
+
+  static const PERIOD = 100.msecs;
+
+  static if(OS.current.supportsEmoji) {
+    static const RUNES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
+  } else {
+    static const RUNES = ['\\', '|', '/', '-', '\\', '|', '/', '-'];
+  }
+
+  @disable this();
 }

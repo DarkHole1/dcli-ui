@@ -16,8 +16,9 @@ const GLYPH_OK = '\u2713';
 const GLYPH_X = '\u2717';
 
 void main() {
-  auto sg = new SpinGroup();
-  sg.add("Title", { Thread.sleep(5.seconds); });
+  writeln(Spinner.RUNES);
+  // auto sg = new SpinGroup();
+  // sg.add("Title", { Thread.sleep(5.seconds); });
   // writeln(Glyph.WARNING.to_s);
   // write(HIDE_CURSOR);
   // stdout.flush();
