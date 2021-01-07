@@ -68,5 +68,9 @@ class Spinner {
                          COLORS[8].to!(const(wstring)) ~ RUNES[8],
                          COLORS[9].to!(const(wstring)) ~ RUNES[9]];
 
+  static auto currentRune() {
+    return RUNES[index];
+  }
+
   @disable this();
 }
