@@ -72,5 +72,11 @@ class Spinner {
     return RUNES[index];
   }
 
+  static auto spin(string title, void delegate() block, bool autoDebrief = true) {
+    auto sg = new SpinGroup(autoDebrief);
+    sg.add(title, block);
+    return sg.wait();
+  }
+
   @disable this();
 }
