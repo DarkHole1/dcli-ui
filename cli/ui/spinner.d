@@ -9,6 +9,7 @@ import cli.ui.os;
 import cli.ui.color;
 import cli.ui.ansi;
 import std.stdio: write;
+import core.thread.osthread: Thread;
 
 class SpinGroup {
   Mutex m;
