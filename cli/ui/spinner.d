@@ -38,7 +38,7 @@ class SpinGroup {
   }
 
   auto wait() {
-    auto idx = 0;
+    ulong idx = 0;
     while(true) {
       auto allDone = true;
 
@@ -86,7 +86,7 @@ class SpinGroup {
 }
 
 class Spinner {
-  static index = 0;
+  static ulong index = 0;
 
   static const PERIOD = 100.msecs;
 

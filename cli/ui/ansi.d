@@ -15,7 +15,7 @@ struct ANSI {
     return control(params, "m");
   }
 
-  static auto cursorUp(int n = 1)
+  static auto cursorUp(ulong n = 1)
   in (n >= 0)
   {
     if(n == 0) {
@@ -24,7 +24,7 @@ struct ANSI {
     return control(n.to!string, "A");
   }
 
-  static auto cursorDown(int n = 1)
+  static auto cursorDown(ulong n = 1)
   in (n >= 0)
   {
     if(n == 0) {
@@ -33,7 +33,7 @@ struct ANSI {
     return control(n.to!string, "B");
   }
 
-  static auto cursorForward(int n = 1)
+  static auto cursorForward(ulong n = 1)
   in (n >= 0)
   {
     if(n == 0) {
@@ -42,7 +42,7 @@ struct ANSI {
     return control(n.to!string, "C");
   }
 
-  static auto cursorBack(int n = 1)
+  static auto cursorBack(ulong n = 1)
   in (n >= 0)
   {
     if(n == 0) {
@@ -51,7 +51,7 @@ struct ANSI {
     return control(n.to!string, "D");
   }
 
-  static auto cursorHorizontalAbsolute(int n = 1)
+  static auto cursorHorizontalAbsolute(ulong n = 1)
   in (n >= 0)
   {
     if(n == 0) {
