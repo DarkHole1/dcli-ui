@@ -1,5 +1,5 @@
 # dcli-ui
-This is a fork of ruby's [cli-ui](https://github.com/Shopify/cli-ui/) library.
+This is a port of ruby's [cli-ui](https://github.com/Shopify/cli-ui/) library.
 ## Usage
 Now only spinner works:
 ```d
