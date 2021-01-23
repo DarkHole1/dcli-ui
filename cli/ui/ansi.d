@@ -7,11 +7,11 @@ struct ANSI {
 
   @disable this();
 
-  static auto control(string args, string cmd) {
-    return ESC ~ "[" ~ args ~ cmd;
+  static auto control(wstring args, wstring cmd) {
+    return ESC ~ "["w ~ args ~ cmd;
   }
 
-  static auto sgr(string params) {
+  static auto sgr(wstring params) {
     return control(params, "m");
   }
 
@@ -19,45 +19,45 @@ struct ANSI {
   in (n >= 0)
   {
     if(n == 0) {
-      return "";
+      return ""w;
     }
-    return control(n.to!string, "A");
+    return control(n.to!wstring, "A");
   }
 
   static auto cursorDown(ulong n = 1)
   in (n >= 0)
   {
     if(n == 0) {
-      return "";
+      return ""w;
     }
-    return control(n.to!string, "B");
+    return control(n.to!wstring, "B");
   }
 
   static auto cursorForward(ulong n = 1)
   in (n >= 0)
   {
     if(n == 0) {
-      return "";
+      return ""w;
     }
-    return control(n.to!string, "C");
+    return control(n.to!wstring, "C"w);
   }
 
   static auto cursorBack(ulong n = 1)
   in (n >= 0)
   {
     if(n == 0) {
-      return "";
+      return ""w;
     }
-    return control(n.to!string, "D");
+    return control(n.to!wstring, "D");
   }
 
   static auto cursorHorizontalAbsolute(ulong n = 1)
   in (n >= 0)
   {
     if(n == 0) {
-      return "";
+      return ""w;
     }
-    auto cmd = control(n.to!string, "G");
+    auto cmd = control(n.to!wstring, "G");
     if(OS.current.shiftCursorOnLineReset) {
       cmd ~= control("1", "D");
     }

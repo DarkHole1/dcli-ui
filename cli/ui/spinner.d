@@ -29,7 +29,7 @@ class SpinGroup {
   }
 
   class Task {
-    string title;
+    wstring title;
     bool allwaysFullRender;
     Thread thread;
     Mutex m;
@@ -38,7 +38,7 @@ class SpinGroup {
     Throwable exception;
     bool success;
 
-    this(string title, void delegate() block) {
+    this(wstring title, void delegate() block) {
       this.title = title;
       // TODO: Check for widgets
       this.allwaysFullRender = false;
@@ -52,7 +52,7 @@ class SpinGroup {
       this.success = false;
     }
 
-    bool check() {
+    auto check() {
       if(this.done) {
         return true;
       }
@@ -82,7 +82,7 @@ class SpinGroup {
       return res;
     }
 
-    void updateTitle(string newTitle) {
+    auto updateTitle(wstring newTitle) {
       this.m.lock_nothrow();
       // TODO: Check for widgets
       this.allwaysFullRender = false;
@@ -95,9 +95,9 @@ class SpinGroup {
 
     auto fullRender(ulong index, int width) {
       // TODO: Implement inset
-      auto prefix = glyph(index) ~ cast(wstring)Color.RESET.code ~ ' ';
+      auto prefix = glyph(index) ~ Color.RESET.code ~ ' ';
       // TODO: Add truncation
-      return prefix ~ cast(wstring)this.title;
+      return prefix ~ this.title;
     }
 
     auto partialRender(ulong index) {
@@ -115,7 +115,7 @@ class SpinGroup {
     }
   }
 
-  auto add(string title, void delegate() block) {
+  auto add(wstring title, void delegate() block) {
     this.m.lock_nothrow();
     tasks ~= new Task(title, block);
     this.m.unlock_nothrow();
@@ -201,7 +201,7 @@ class Spinner {
     return RUNES[index];
   }
 
-  static auto spin(string title, void delegate() block, bool autoDebrief = true) {
+  static auto spin(wstring title, void delegate() block, bool autoDebrief = true) {
     auto sg = new SpinGroup(autoDebrief);
     writeln("Created SpinGroup");
     sg.add(title, block);

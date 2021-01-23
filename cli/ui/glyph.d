@@ -4,11 +4,11 @@ import cli.ui.color;
 
 class Glyph {
   string handle;
-  string symbol;
+  wstring symbol;
   const Color color;
-  string plain;
-  string fmt;
-  this(string handle, string symbol, string plain, const Color color) {
+  wstring plain;
+  wstring fmt;
+  this(string handle, wstring symbol, wstring plain, const Color color) {
     this.handle = handle;
     this.symbol = symbol;
     this.plain = plain;

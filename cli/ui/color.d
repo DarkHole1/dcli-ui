@@ -2,10 +2,10 @@ module cli.ui.color;
 import cli.ui.ansi;
 
 class Color {
-  string sgr;
-  string code;
-  string name;
-  this(string sgr, string name) {
+  wstring sgr;
+  wstring code;
+  wstring name;
+  this(wstring sgr, wstring name) {
     this.sgr = sgr;
     this.code = ANSI.sgr(sgr);
     this.name = name;
