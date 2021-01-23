@@ -8,8 +8,11 @@ import std.datetime;
 import cli.ui.os;
 import cli.ui.color;
 import cli.ui.ansi;
+import cli.ui.glyph;
 import std.stdio: write;
 import core.thread.osthread: Thread;
+
+import std.stdio;
 
 class SpinGroup {
   Mutex m;
@@ -31,7 +34,8 @@ class SpinGroup {
     Thread thread;
     Mutex m;
     bool forceFullRender;
-    Exception exception;
+    bool done;
+    Throwable exception;
     bool success;
 
     this(string title, void delegate() block) {
@@ -40,6 +44,7 @@ class SpinGroup {
       this.allwaysFullRender = false;
       // TODO: Intercept output?
       this.thread = new Thread(block);
+      this.thread.start();
       this.m = new Mutex();
       this.forceFullRender = false;
       this.done = false;
@@ -57,19 +62,20 @@ class SpinGroup {
       this.done = true;
       this.success = true;
       auto exc = this.thread.join(false);
-      if(exc != null) {
+      if(exc !is null) {
         this.exception = exc;
         this.success = false;
       }
       return true;
     }
 
-    auto render(int index, bool force = true, int width = 80) {
+    auto render(ulong index, bool force = true, int width = 80) {
       this.m.lock_nothrow();
+      wstring res;
       if(force || this.allwaysFullRender || this.forceFullRender) {
-        auto res = this.fullRender(index, width);
+        res = this.fullRender(index, width);
       } else {
-        auto res = this.partialRender(index);
+        res = this.partialRender(index);
       }
       this.forceFullRender = false;
       this.m.unlock_nothrow();
@@ -87,24 +93,25 @@ class SpinGroup {
 
     private:
 
-    auto fullRender(int index, int width) {
-      auto prefix = inset ~ glyph(index)) ~ Color.RESET.code ~ ' ';
+    auto fullRender(ulong index, int width) {
+      // TODO: Implement inset
+      auto prefix = glyph(index) ~ cast(wstring)Color.RESET.code ~ ' ';
       // TODO: Add truncation
-      return prefix ~ this.title;
+      return prefix ~ cast(wstring)this.title;
     }
 
-    auto partialRender(int index) {
-      return glyph(index) ~ Color.RESET.code;
+    auto partialRender(ulong index) {
+      return glyph(index) ~ cast(wstring)Color.RESET.code;
     }
 
-    auto glyph(int index) {
+    auto glyph(ulong index) {
       if(this.done) {
         if(this.success) {
-          return Glyph.CHECK.to_s;
+          return cast(const(wstring)) Glyph.CHECK.to_s;
         }
-        return Glyph.X.to_s;
+        return cast(const(wstring)) Glyph.X.to_s;
       }
-      return Color.GLYPHS[index];
+      return Spinner.GLYPHS[index];
     }
   }
 
@@ -124,10 +131,13 @@ class SpinGroup {
       auto width = 80;
 
       this.m.lock_nothrow();
+      writeln("Locked SpinGroup");
       // TODO: Implement raw?
       foreach(intIndex, task; this.tasks) {
+        writeln("Got task");
         auto natIndex = intIndex + 1;
         auto taskDone = task.check;
+        writeln("Checked task");
         if(!taskDone) {
           allDone = false;
         }
@@ -143,6 +153,7 @@ class SpinGroup {
         }
       }
       this.m.unlock_nothrow();
+      writeln("Unlocked SpinGroup");
 
       if(allDone) {
         break;
@@ -192,7 +203,9 @@ class Spinner {
 
   static auto spin(string title, void delegate() block, bool autoDebrief = true) {
     auto sg = new SpinGroup(autoDebrief);
+    writeln("Created SpinGroup");
     sg.add(title, block);
+    writeln("Added block");
     return sg.wait();
   }
 
