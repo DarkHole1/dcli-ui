@@ -26,9 +26,25 @@ class SpinGroup {
   }
 
   class Task {
-    // TODO: Implement
+    string title;
+    bool allwaysFullRender;
+    Thread thread;
+    Mutex m;
+    bool forceFullRender;
+    Exception exception;
+    bool success;
+    
     this(string title, void delegate() block) {
-
+      this.title = title;
+      // TODO: Check for widgets
+      this.allwaysFullRender = false;
+      // TODO: Intercept output?
+      this.thread = new Thread(block);
+      this.m = new Mutex();
+      this.forceFullRender = false;
+      this.done = false;
+      this.exception = null;
+      this.success = false;
     }
   }
 
