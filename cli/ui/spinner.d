@@ -64,12 +64,12 @@ class SpinGroup {
       return true;
     }
 
-    string render(int index, bool force = true, int width = 80) {
+    auto render(int index, bool force = true, int width = 80) {
       this.m.lock_nothrow();
       if(force || this.allwaysFullRender || this.forceFullRender) {
         auto res = this.fullRender(index, width);
       } else {
-        auto res = this.partialRender(index, width);
+        auto res = this.partialRender(index);
       }
       this.forceFullRender = false;
       this.m.unlock_nothrow();
@@ -87,6 +87,15 @@ class SpinGroup {
 
     private:
 
+    auto fullRender(int index, int width) {
+      auto prefix = inset ~ glyph(index)) ~ Color.RESET.code ~ ' ';
+      // TODO: Add truncation
+      return prefix ~ this.title;
+    }
+
+    auto partialRender(int index) {
+      return glyph(index) ~ Color.RESET.code;
+    }
   }
 
   auto add(string title, void delegate() block) {
