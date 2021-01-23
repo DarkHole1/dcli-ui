@@ -96,6 +96,16 @@ class SpinGroup {
     auto partialRender(int index) {
       return glyph(index) ~ Color.RESET.code;
     }
+
+    auto glyph(int index) {
+      if(this.done) {
+        if(this.success) {
+          return Glyph.CHECK.to_s;
+        }
+        return Glyph.X.to_s;
+      }
+      return Color.GLYPHS[index];
+    }
   }
 
   auto add(string title, void delegate() block) {
