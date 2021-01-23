@@ -9,7 +9,7 @@ import cli.ui.os;
 import cli.ui.color;
 import cli.ui.ansi;
 import cli.ui.glyph;
-import std.stdio: write;
+import std.stdio: write, stdout;
 import core.thread.osthread: Thread;
 
 class SpinGroup {
@@ -83,7 +83,7 @@ class SpinGroup {
     auto updateTitle(wstring newTitle) {
       this.m.lock_nothrow();
       // TODO: Check for widgets
-      this.allwaysFullRender = false;
+      // this.allwaysFullRender = false;
       this.title = newTitle;
       this.forceFullRender = true;
       this.m.unlock_nothrow();
@@ -131,6 +131,7 @@ class SpinGroup {
       this.m.lock_nothrow();
       // TODO: Implement raw?
       foreach(intIndex, task; this.tasks) {
+        // write("aaaa\n");
         auto natIndex = intIndex + 1;
         auto taskDone = task.check;
         if(!taskDone) {
@@ -145,6 +146,7 @@ class SpinGroup {
           auto moveTo = ANSI.cursorUp(offset) ~ "\r";
           auto moveFrom = "\r" ~ ANSI.cursorDown(offset);
           write(moveTo, task.render(idx, idx == 0, width), moveFrom);
+          stdout.flush();
         }
       }
       this.m.unlock_nothrow();

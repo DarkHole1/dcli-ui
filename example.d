@@ -16,19 +16,8 @@ const GLYPH_OK = '\u2713';
 const GLYPH_X = '\u2717';
 
 void main() {
-  Spinner.spin("Title", { Thread.sleep(5.seconds); });
-  // writeln(Glyph.WARNING.to_s);
-  // write(HIDE_CURSOR);
-  // stdout.flush();
-  // scope(exit) {
-  //   write(START_LINE ~ ERASE_LINE, GLYPH_X);
-  //   write(SHOW_CURSOR, '\n');
-  //   stdout.flush();
-  // }
-  //
-  // for (ulong i = 0; i < 100; i++) {
-  //   write(START_LINE ~ ERASE_LINE, Spinner.GLYPHS[i % Spinner.GLYPHS.length]);
-  //   stdout.flush();
-  //   Thread.sleep(100.msecs);
-  // }
+  Spinner.spin("Title", { Thread.sleep(2.seconds); });
+  auto sg = new SpinGroup();
+  sg.add("Foo", { Thread.sleep(4.seconds); });
+  sg.add("Bar", { Thread.sleep(2.seconds); });
 }
