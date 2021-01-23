@@ -74,6 +74,15 @@ class SpinGroup {
       this.forceFullRender = false;
       this.m.unlock_nothrow();
     }
+
+    void updateTitle(string newTitle) {
+      this.m.lock_nothrow();
+      // TODO: Check for widgets
+      this.allwaysFullRender = false;
+      this.title = newTitle;
+      this.forceFullRender = true;
+      this.m.unlock_nothrow();
+    }
   }
 
   auto add(string title, void delegate() block) {
