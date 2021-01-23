@@ -64,15 +64,16 @@ class SpinGroup {
       return true;
     }
 
-    void render(int index, bool force = true, int width = 80) {
+    string render(int index, bool force = true, int width = 80) {
       this.m.lock_nothrow();
       if(force || this.allwaysFullRender || this.forceFullRender) {
-        this.fullRender(index, width);
+        auto res = this.fullRender(index, width);
       } else {
-        this.partialRender(index, width);
+        auto res = this.partialRender(index, width);
       }
       this.forceFullRender = false;
       this.m.unlock_nothrow();
+      return res;
     }
 
     void updateTitle(string newTitle) {
@@ -83,6 +84,9 @@ class SpinGroup {
       this.forceFullRender = true;
       this.m.unlock_nothrow();
     }
+
+    private:
+
   }
 
   auto add(string title, void delegate() block) {
