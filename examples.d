@@ -6,6 +6,10 @@ void main() {
   version(spingroup) {
     spingroup();
   }
+
+  version(printer) {
+    printer();
+  }
 }
 
 void spinner() {
@@ -26,4 +30,10 @@ void spingroup() {
   sg.add("Bar", { Thread.sleep(2.seconds); });
   sg.add("Baz", { Thread.sleep(1.seconds); throw new Exception("Baz"); });
   sg.wait();
+}
+
+void printer() {
+  import cli.ui.printer;
+
+  Printer.puts("{{x}} Ouch");
 }
