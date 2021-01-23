@@ -33,7 +33,7 @@ class SpinGroup {
     bool forceFullRender;
     Exception exception;
     bool success;
-    
+
     this(string title, void delegate() block) {
       this.title = title;
       // TODO: Check for widgets
@@ -45,6 +45,23 @@ class SpinGroup {
       this.done = false;
       this.exception = null;
       this.success = false;
+    }
+
+    bool check() {
+      if(this.done) {
+        return true;
+      }
+      if(this.thread.isRunning) {
+        return false;
+      }
+      this.done = true;
+      this.success = true;
+      auto exc = this.thread.join(false);
+      if(exc != null) {
+        this.exception = exc;
+        this.success = false;
+      }
+      return true;
     }
   }
 
