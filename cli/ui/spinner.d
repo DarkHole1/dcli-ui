@@ -12,8 +12,6 @@ import cli.ui.glyph;
 import std.stdio: write;
 import core.thread.osthread: Thread;
 
-import std.stdio;
-
 class SpinGroup {
   Mutex m;
   int consumedLines;
@@ -131,13 +129,10 @@ class SpinGroup {
       auto width = 80;
 
       this.m.lock_nothrow();
-      writeln("Locked SpinGroup");
       // TODO: Implement raw?
       foreach(intIndex, task; this.tasks) {
-        writeln("Got task");
         auto natIndex = intIndex + 1;
         auto taskDone = task.check;
-        writeln("Checked task");
         if(!taskDone) {
           allDone = false;
         }
@@ -153,7 +148,6 @@ class SpinGroup {
         }
       }
       this.m.unlock_nothrow();
-      writeln("Unlocked SpinGroup");
 
       if(allDone) {
         break;
@@ -203,9 +197,7 @@ class Spinner {
 
   static auto spin(wstring title, void delegate() block, bool autoDebrief = true) {
     auto sg = new SpinGroup(autoDebrief);
-    writeln("Created SpinGroup");
     sg.add(title, block);
-    writeln("Added block");
     return sg.wait();
   }
 
