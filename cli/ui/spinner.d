@@ -3,7 +3,7 @@ import core.sync.mutex: Mutex;
 import std.range: zip, repeat, array;
 import std.algorithm.iteration: map;
 import std.math: floor, ceil;
-import std.conv: to;
+import std.conv: to, wtext;
 import std.datetime;
 import cli.ui.os;
 import cli.ui.color;
@@ -27,7 +27,7 @@ class SpinGroup {
   }
 
   class Task {
-    wstring title;
+    string title;
     bool allwaysFullRender;
     Thread thread;
     Mutex m;
@@ -36,7 +36,7 @@ class SpinGroup {
     Throwable exception;
     bool success;
 
-    this(wstring title, void delegate() block) {
+    this(string title, void delegate() block) {
       this.title = title;
       // TODO: Check for widgets
       this.allwaysFullRender = false;
@@ -80,7 +80,7 @@ class SpinGroup {
       return res;
     }
 
-    auto updateTitle(wstring newTitle) {
+    auto updateTitle(string newTitle) {
       this.m.lock_nothrow();
       // TODO: Check for widgets
       // this.allwaysFullRender = false;
@@ -95,7 +95,7 @@ class SpinGroup {
       // TODO: Implement inset
       auto prefix = glyph(index) ~ Color.RESET.code ~ ' ';
       // TODO: Add truncation
-      return prefix ~ this.title;
+      return wtext(prefix, this.title);
     }
 
     auto partialRender(ulong index) {
@@ -113,7 +113,7 @@ class SpinGroup {
     }
   }
 
-  auto add(wstring title, void delegate() block) {
+  auto add(string title, void delegate() block) {
     this.m.lock_nothrow();
     tasks ~= new Task(title, block);
     this.m.unlock_nothrow();
@@ -197,7 +197,7 @@ class Spinner {
     return RUNES[index];
   }
 
-  static auto spin(wstring title, void delegate() block, bool autoDebrief = true) {
+  static auto spin(string title, void delegate() block, bool autoDebrief = true) {
     auto sg = new SpinGroup(autoDebrief);
     sg.add(title, block);
     return sg.wait();

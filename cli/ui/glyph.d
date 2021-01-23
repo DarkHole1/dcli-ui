@@ -1,4 +1,5 @@
 module cli.ui.glyph;
+import std.conv: wtext;
 import cli.ui.os;
 import cli.ui.color;
 
@@ -13,7 +14,7 @@ class Glyph {
     this.symbol = symbol;
     this.plain = plain;
     this.color = color;
-    this.fmt = "{{" ~ color.name ~ ":" ~ this.sym ~ "}}";
+    this.fmt = wtext("{{", color.name, ":", this.sym, "}}");
   }
 
   const auto sym() {

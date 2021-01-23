@@ -4,8 +4,8 @@ import cli.ui.ansi;
 class Color {
   wstring sgr;
   wstring code;
-  wstring name;
-  this(wstring sgr, wstring name) {
+  string name;
+  this(wstring sgr, string name) {
     this.sgr = sgr;
     this.code = ANSI.sgr(sgr);
     this.name = name;
