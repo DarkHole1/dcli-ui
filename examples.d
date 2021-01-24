@@ -10,6 +10,10 @@ void main() {
   version(printer) {
     printer();
   }
+
+  version(terminal) {
+    terminal();
+  }
 }
 
 void spinner() {
@@ -36,4 +40,11 @@ void printer() {
   import cli.ui.printer;
 
   Printer.puts("{{x}} Ouch");
+}
+
+void terminal() {
+  import cli.ui.terminal;
+  import std.stdio;
+
+  writeln(Terminal.winsize());
 }
