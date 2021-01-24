@@ -46,5 +46,5 @@ void terminal() {
   import cli.ui.terminal;
   import std.stdio;
 
-  writeln(Terminal.winsize());
+  writeln("Width: ", Terminal.width, " cols, height: ", Terminal.height, " rows.");
 }
