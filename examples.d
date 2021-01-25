@@ -14,6 +14,10 @@ void main() {
   version(terminal) {
     terminal();
   }
+
+  version(stdout_router) {
+    stdout_router();
+  }
 }
 
 void spinner() {
@@ -47,4 +51,15 @@ void terminal() {
   import std.stdio;
 
   writeln("Width: ", Terminal.width, " cols, height: ", Terminal.height, " rows.");
+}
+
+void stdout_router() {
+  import cli.ui.stdout_router;
+  import std.stdio;
+
+  writeln("Visible");
+  StdoutRouter.nullify();
+  writeln("Invisible");
+  StdoutRouter.restore();
+  writeln("Visible again");
 }
