@@ -1,5 +1,5 @@
 module cli.ui.stdout_router;
-import std.stdio: File, stdout, stderr;
+import std.stdio: File, _stdout = stdout, _stderr = stderr;
 
 class StdoutRouter {
   this() @disable;
@@ -8,17 +8,17 @@ class StdoutRouter {
   static File stderr;
 
   shared static this() {
-    this.stdout = stdout;
-    this.stderr = stderr;
+    this.stdout = _stdout;
+    this.stderr = _stderr;
   }
 
   static auto nullify() {
-    stdout.open("/dev/null", "w");
-    stderr = stdout;
+    _stdout.open("/dev/null", "w");
+    _stderr = _stdout;
   }
 
   static auto restore() {
-    stdout = this.stdout;
-    stderr = this.stderr;
+    _stdout = this.stdout;
+    _stderr = this.stderr;
   }
 }
