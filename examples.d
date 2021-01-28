@@ -72,5 +72,5 @@ void formatter() {
   import cli.ui.formatter;
   import std.stdio;
 
-  writeln(new Formatter("$x ouch! $$ $` $@").format());
+  writeln(new Formatter("`command:ls -la $x ouch! $$ $` $@").format());
 }
