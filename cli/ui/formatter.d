@@ -1,7 +1,7 @@
 module cli.ui.formatter;
 import cli.ui.glyph;
-import cli.ui.color;
-import std.conv: toText = text;
+import cli.ui.ansi;
+import std.conv: toText = text, wtext;
 
 class Formatter {
   static immutable string[string] SGR_MAP;
@@ -69,7 +69,7 @@ class Formatter {
         case State.COLOR:
           if(c == ':') {
             state = State.TEXT;
-            res ~= Color.lookup(colorname).code.toText;
+            res ~= ANSI.sgr(SGR_MAP[colorname].wtext).toText;
             break;
           }
           colorname ~= c;
