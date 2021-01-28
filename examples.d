@@ -18,6 +18,10 @@ void main() {
   version(stdout_router) {
     stdout_router();
   }
+
+  version(formatter) {
+    formatter();
+  }
 }
 
 void spinner() {
@@ -62,4 +66,11 @@ void stdout_router() {
   writeln("Invisible");
   StdoutRouter.restore();
   writeln("Visible again");
+}
+
+void formatter() {
+  import cli.ui.formatter;
+  import std.stdio;
+
+  writeln(new Formatter("$x ouch!").format());
 }
