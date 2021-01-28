@@ -1,5 +1,6 @@
 module cli.ui.formatter;
-import Glyph
+import cli.ui.glyph;
+import std.conv: toText = text;
 
 class Formatter {
   static immutable string[string] SGR_MAP;
@@ -31,32 +32,34 @@ class Formatter {
     this.text = text;
   }
 
-  auto format(bool enableColor = true, string[string] sgrMap = SGR_MAP) {
+  auto format(bool enableColor = true, const string[string] sgrMap = SGR_MAP) {
     // I didn't understand original logic of formatting so I implemented
     // my version here
-    enum State { TEXT, SPECIAL, COLOR };
+    enum State { TEXT, SPECIAL }
     State state = State.TEXT;
 
     string res = "";
 
-    for(c; this.res) {
+    foreach(c; this.text) {
       final switch(state) {
-        State.TEXT:
+        case State.TEXT:
           if(c != '$') {
             res ~= c;
             break;
           }
           state = State.SPECIAL;
           break;
-        State.SPECIAL:
+        case State.SPECIAL:
           state = State.TEXT;
           if(c == '$' || c == '`' || c == '@') {
             res ~= c;
             break;
           }
-          res ~= Glyph.lookup(c).to_s;
+          res ~= toText(Glyph.lookup([c]).to_s);
           break;
       }
     }
+
+    return res;
   }
 }

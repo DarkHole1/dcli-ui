@@ -54,7 +54,7 @@ class Glyph {
     ];
   }
 
-  auto lookup(string name) {
+  static auto lookup(string name) {
     // TODO: Add exception
     return MAP[name];
   }

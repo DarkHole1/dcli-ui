@@ -68,7 +68,7 @@ struct ANSI {
     return control("", "?25h");
   }
 
-  static auto showCursor() {
+  static auto hideCursor() {
     return control("", "?25l");
   }
 
