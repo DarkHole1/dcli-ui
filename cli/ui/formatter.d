@@ -63,13 +63,13 @@ class Formatter {
             res ~= c;
             break;
           }
-          res ~= toText(Glyph.lookup([c]).to_s);
+          res ~= Glyph.lookup([c]).to_s.toText;
           break;
 
         case State.COLOR:
           if(c == ':') {
             state = State.TEXT;
-            res ~= Color.lookup(colorname).code;
+            res ~= Color.lookup(colorname).code.toText;
             break;
           }
           colorname ~= c;
