@@ -37,12 +37,12 @@ class Color {
     ];
   }
 
-  auto lookup(string name) {
+  static auto lookup(string name) {
     // TODO: Add exception
     return MAP[name];
   }
 
-  auto available() {
+  static auto available() {
     return MAP.keys;
   }
 
