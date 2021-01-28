@@ -1,4 +1,5 @@
 module cli.ui.formatter;
+import Glyph
 
 class Formatter {
   static immutable string[string] SGR_MAP;
@@ -31,6 +32,31 @@ class Formatter {
   }
 
   auto format(bool enableColor = true, string[string] sgrMap = SGR_MAP) {
-    
+    // I didn't understand original logic of formatting so I implemented
+    // my version here
+    enum State { TEXT, SPECIAL, COLOR };
+    State state = State.TEXT;
+
+    string res = "";
+
+    for(c; this.res) {
+      final switch(state) {
+        State.TEXT:
+          if(c != '$') {
+            res ~= c;
+            break;
+          }
+          state = State.SPECIAL;
+          break;
+        State.SPECIAL:
+          state = State.TEXT;
+          if(c == '$' || c == '`' || c == '@') {
+            res ~= c;
+            break;
+          }
+          res ~= Glyph.lookup(c).to_s;
+          break;
+      }
+    }
   }
 }
